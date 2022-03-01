@@ -1,19 +1,22 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { useEffect, useState, useRef } from 'react'
+import Link from 'next/link'
+import React, { useEffect, useState, useRef } from 'react'
 import { ethers } from 'ethers'
 import { hasEthereum } from '../utils/ethereum'
-import Greeter from '../src/artifacts/contracts/Greeter.sol/Greeter.json'
+//import Greeter from '../src/artifacts/contracts/Greeter.sol/Greeter.json'
+import ChickenRunV4 from '../src/artifacts/contracts/ChickenRunV4.sol/ChickenRunV4.json'
+import Chicken from '../components/chicken'
+import Header from '../components/header'
+
+
+
 
 export default function Home() {
-
-  const [greeting, setGreetingState] = useState('')
+  const [totalSupply, setTotalSupply] = useState('')
   const [newGreeting, setNewGreetingState] = useState('')
   const [newGreetingMessage, setNewGreetingMessageState] = useState('')
   const [connectedWalletAddress, setConnectedWalletAddressState] = useState('')
   const newGreetingInputRef = useRef();
-
 
   // If wallet is already connected...
   useEffect( () => {
@@ -34,44 +37,57 @@ export default function Home() {
     }
     setConnectedWalletAddress();
   },[])
+  
+  // Request access to MetaMask account
+  async function requestAccount() {
+    await window.ethereum.request({ method: 'eth_requestAccounts' } )
+  }
 
-    // Request access to MetaMask account
-    async function requestAccount() {
-      await window.ethereum.request({ method: 'eth_requestAccounts' } )
+   // Call smart contract, set new value
+   async function setGreeting() {
+ 
+    if ( ! hasEthereum() ) {
+      setConnectedWalletAddressState(`MetaMask unavailable`)
+      return
     }
+ 
+ 
+    console.log("set3...")
+    await requestAccount()
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const signerAddress = await signer.getAddress()
+    setConnectedWalletAddressState(`Connected wallet: ${signerAddress}`)
+    const contract = new ethers.Contract(process.env.CHICKEN_CONTRACT_ADDRESS, ChickenRunV4.abi, signer)
+    const transaction = await contract.mint(1)
+    await transaction.wait()
+    //setNewGreetingMessageState(`Greeting updated to ${newGreeting} from ${greeting}.`)
+    //newGreetingInputRef.current.value = ''
+    //setNewGreetingState('')
+  }
 
-
-    async function fetchGreeting() {
-      if ( ! hasEthereum() ) {
-        setConnectedWalletAddressState(`MetaMask unavailable`)
-        return
-      }
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      console.log(provider)
-      const contract = new ethers.Contract(process.env.NEXT_PUBLIC_GREETER_ADDRESS, Greeter.abi, provider)
-      console.log(contract)
-      try {
-        const data = await contract.greet()
-        console.log(data)
-        setGreetingState(data)
-      } catch(error) {
-        console.log(error)
-      }
+  // Call smart contract, fetch current value
+  async function fetchGreeting() {
+    if ( ! hasEthereum() ) {
+      setConnectedWalletAddressState(`MetaMask unavailable`)
+      return
     }
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const contract = new ethers.Contract(process.env.CHICKEN_CONTRACT_ADDRESS, ChickenRunV4.abi, provider)
+    console.log(contract)
+    try {
+      //const mintAction =  await contract.mint(1);
+      const data = await contract.totalSupply();
+      setTotalSupply(data)
+    } catch(error) {
+      console.log(error)
+    }
+  }
 
 
-
-
-   // fetchGreeting().then(result => result)
+ 
 
   return (
-    <div className={styles.container}>
-    <br/>
-    <br/>
-    <button onClick={fetchGreeting}>GetGreeting</button>
-    <br/>
-    <br/>
-    <label>{greeting}</label>
-    </div>
+   <Header />
   )
 }

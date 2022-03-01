@@ -1,0 +1,68 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "SimpleStorage",
+  "sourceName": "contracts/SimpleStorage.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "oldNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "newNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "addedNumber",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "storedNumber",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "retrieve",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_favoriteNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "store",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608060405234801561001057600080fd5b50610116806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80632e64cec11460375780636057361d14604c575b600080fd5b60005460405190815260200160405180910390f35b605b605736600460a6565b605d565b005b60005481907fe304654f140653267f4d09df4968c896d7d6fd0b8e23c45f1db26a86cf930001608b828460bd565b604080519182523360208301520160405180910390a3600055565b60006020828403121560b6578081fd5b5035919050565b6000821982111560db57634e487b7160e01b81526011600452602481fd5b50019056fea2646970667358221220182a4532655a806dc3afa02699fa1c722fbb91a314dea85e097d5b4f038b742564736f6c63430008040033",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c80632e64cec11460375780636057361d14604c575b600080fd5b60005460405190815260200160405180910390f35b605b605736600460a6565b605d565b005b60005481907fe304654f140653267f4d09df4968c896d7d6fd0b8e23c45f1db26a86cf930001608b828460bd565b604080519182523360208301520160405180910390a3600055565b60006020828403121560b6578081fd5b5035919050565b6000821982111560db57634e487b7160e01b81526011600452602481fd5b50019056fea2646970667358221220182a4532655a806dc3afa02699fa1c722fbb91a314dea85e097d5b4f038b742564736f6c63430008040033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

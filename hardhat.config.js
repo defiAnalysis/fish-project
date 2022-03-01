@@ -63,9 +63,22 @@ module.exports = {
   etherscan: {
     apiKey: `${AVAX_API_KEY}`
   },
-  solidity: "0.8.4",
+  solidity: {
+    version: "0.8.4",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
 };
 
 //NFT Contract: 0xf201Db933f0F7281dE9d64A60ACD1e05da04de40
 // npx hardhat run scripts/NFT.deploy.js --network fuji 
 // npx hardhat verify --network fuji 0xf201Db933f0F7281dE9d64A60ACD1e05da04de40 FishNFT FISH ipfs://QmSgBpAVYM9J7B6jd81EZtHV9oXJVkMdLyXNUhN9AUVnRx 150
+
+
+//ChickenRunV4 COntract: 0x1871da5b2D833dF195973f159420Ab1A60Adf6de
+//EGGV2 Contract: 0x1756Ff1EefA3FF4Cc52Fc98831e81009Cf908c1f
+//FeedV2 COntract:  0x91e19E748e6EaA752a8Cd1fFC835D7e7Cb4606dC
