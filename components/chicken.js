@@ -74,6 +74,7 @@ export default function Chicken() {
       const contract = await getContract();
       const data = await contract.totalSupply();
       setTotalSupply(data.toString());
+      console.log("deneme...");
     } catch (error) {
       console.log(error);
     }
